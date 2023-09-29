@@ -2,7 +2,9 @@
 
 namespace HoneyCal\Shared\Domain\ValueObject;
 
-abstract class StringValueObject
+use Stringable;
+
+abstract class StringValueObject implements Stringable
 {
     public function __construct(
         private string $value,
@@ -16,5 +18,10 @@ abstract class StringValueObject
     public function equals(StringValueObject $other): bool
     {
         return $this->value() === $other->value();
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }
