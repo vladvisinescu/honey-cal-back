@@ -5,6 +5,7 @@ namespace HoneyCal\Habits\Domain;
 use DateTime;
 use DateTimeImmutable;
 use HoneyCal\Habits\Domain\ActionId;
+use HoneyCal\Habits\Domain\Errors\InvalidActionData;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 use HoneyCal\Shared\Domain\DomainError;
 use HoneyCal\Shared\Domain\ValueObject\DateTimeValueObject;
@@ -45,20 +46,22 @@ final class Action extends AggregateRoot
         DateTimeValueObject $createdAt,
         DateTimeValueObject $nextOccurrence
     ): self {
+        $id = ActionId::random();
+
         if (!$title) {
-            throw new \Exception('Action title cannot be empty.');
+            throw new InvalidActionData('Invalid action title.');
         }
 
         if ($createdAt < new DateTimeImmutable()) {
-            throw new DomainError('Action cannot be created in the past.');
+            throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
         }
 
         if (!$recurrence) {
-            throw new DomainError('Action recurrence cannot be empty.');
+            throw new InvalidActionData('Invalid action recurrence.');
         }
 
         return new self(
-            ActionId::random(),
+            $id,
             $title,
             $recurrence,
             $createdAt,
