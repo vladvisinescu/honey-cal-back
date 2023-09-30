@@ -6,5 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 abstract class UnitTestCase extends TestCase
 {
-
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
 }

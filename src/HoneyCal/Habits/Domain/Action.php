@@ -2,12 +2,12 @@
 
 namespace HoneyCal\Habits\Domain;
 
-use DateTime;
 use DateTimeImmutable;
 use HoneyCal\Habits\Domain\ActionId;
 use HoneyCal\Habits\Domain\Errors\InvalidActionData;
+use HoneyCal\Habits\Domain\ValueObjects\Action\CreatedAtValueObject;
+use HoneyCal\Habits\Domain\ValueObjects\Action\NextOccurrenceValueObject;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
-use HoneyCal\Shared\Domain\DomainError;
 use HoneyCal\Shared\Domain\ValueObject\DateTimeValueObject;
 
 final class Action extends AggregateRoot
@@ -16,8 +16,8 @@ final class Action extends AggregateRoot
         private ActionId $id,
         private ActionTitle $title,
         private Recurrence $recurrence,
-        private DateTimeValueObject $createdAt,
-        private DateTimeValueObject $nextOccurrence
+        private CreatedAtValueObject $createdAt,
+        private NextOccurrenceValueObject $nextOccurrence
     ) {}
 
     public static function fromPrimitives(
@@ -26,7 +26,7 @@ final class Action extends AggregateRoot
         string $createdAt,
         string $nextOccurrence
     ): self {
-        return self::create(
+        return static::create(
             ActionTitle::fromString($title),
             Recurrence::fromPrimitives(
                 $recurrence['every'],
@@ -35,16 +35,16 @@ final class Action extends AggregateRoot
                 $recurrence['starting'],
                 $recurrence['ending'],
             ),
-            DateTimeValueObject::fromString($createdAt),
-            DateTimeValueObject::fromString($nextOccurrence),
+            CreatedAtValueObject::fromString($createdAt),
+            NextOccurrenceValueObject::fromString($nextOccurrence),
         );
     }
 
     public static function create(
         ActionTitle $title,
         Recurrence $recurrence,
-        DateTimeValueObject $createdAt,
-        DateTimeValueObject $nextOccurrence
+        CreatedAtValueObject $createdAt,
+        NextOccurrenceValueObject $nextOccurrence
     ): self {
         $id = ActionId::random();
 
@@ -52,7 +52,7 @@ final class Action extends AggregateRoot
             throw new InvalidActionData('Invalid action title.');
         }
 
-        if ($createdAt < new DateTimeImmutable()) {
+        if ($createdAt->value() < new DateTimeImmutable()) {
             throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
         }
 

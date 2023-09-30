@@ -15,6 +15,11 @@ abstract class StringValueObject implements Stringable
         return $this->value;
     }
 
+    public static function fromString(string $value): self
+    {
+        return new static($value);
+    }
+
     public function equals(StringValueObject $other): bool
     {
         return $this->value() === $other->value();
