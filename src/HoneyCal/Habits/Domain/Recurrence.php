@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Habits\Domain;
 
+use HoneyCal\Habits\Domain\Errors\InvalidRecurrenceData;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\AtModifierValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\EndingModifierValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\EveryModifierValueObject;
@@ -12,7 +13,7 @@ use HoneyCal\Shared\Domain\Utils;
 
 final class Recurrence extends Aggregate
 {
-    private const EVERY = ['hour', 'day', 'week',];
+    private const EVERY = ['hour', 'day', 'week'];
     private const ON = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
     private function __construct(
@@ -48,35 +49,36 @@ final class Recurrence extends Aggregate
     ): self {
         // "every" is required and must be one of the following: hour, day, week
         if (!in_array($every->value(), self::EVERY)) {
-            throw new \Exception('Invalid recurrence every');
+            throw new InvalidRecurrenceData('Invalid recurrence every');
         }
 
-        // "on" is required and must be one of the following: monday, tuesday, wednesday, thursday, friday, saturday, sunday
+        // "on" is required and must be one of the following:
+        // monday, tuesday, wednesday, thursday, friday, saturday, sunday
         if (!is_null($on)) {
             if (!in_array($on->value(), self::ON)) {
-                throw new \Exception('Invalid recurrence on');
+                throw new InvalidRecurrenceData('Invalid recurrence on');
             }
 
             if ($every->value() !== 'week') {
-                throw new \Exception('Invalid recurrence [every, on] combo.');
+                throw new InvalidRecurrenceData('Invalid recurrence [every, on] combo.');
             }
 
         }
 
         if (!is_null($at)) {
             if (!AtModifierValueObject::ensureIsValidTime($at->value())) {
-                throw new \Exception('Invalid recurrence at time format.');
+                throw new InvalidRecurrenceData('Invalid recurrence at time format.');
             }
         }
 
         if ($starting && $starting->value() && !Utils::checkValidDateString($starting)) {
-            throw new \Exception('Invalid recurrence starting date format.');
+            throw new InvalidRecurrenceData('Invalid recurrence starting date format.');
         }
 
         if ($ending && $ending->value() && !Utils::checkValidDateString($ending)) {
-            throw new \Exception('Invalid recurrence ending date format.');
+            throw new InvalidRecurrenceData('Invalid recurrence ending date format.');
         }
 
-        return new self(every: $every, on: $on, at: $at, starting: $starting, ending: $ending);
+        return new self($every, $on, $at, $starting, $ending);
     }
 }

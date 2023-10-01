@@ -8,7 +8,6 @@ use HoneyCal\Habits\Domain\Errors\InvalidActionData;
 use HoneyCal\Habits\Domain\ValueObjects\Action\CreatedAtValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Action\NextOccurrenceValueObject;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
-use HoneyCal\Shared\Domain\ValueObject\DateTimeValueObject;
 
 final class Action extends AggregateRoot
 {
@@ -60,7 +59,7 @@ final class Action extends AggregateRoot
             throw new InvalidActionData('Invalid action recurrence.');
         }
 
-        return new self(
+        return new static(
             $id,
             $title,
             $recurrence,
