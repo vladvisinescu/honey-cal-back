@@ -3,3 +3,7 @@ controllers:
     path: ../src/App/Controller/
     namespace: App\Controller
   type: attribute
+
+actions.get:
+  path: /api/actions
+  controller: App\Controller\ActionsGetController

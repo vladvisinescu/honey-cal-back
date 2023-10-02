@@ -1,20 +1,19 @@
 <?php
 
-namespace HoneyCal\Tests\Habits;
+namespace HoneyCal\Tests\Habits\Domain;
 
-use HoneyCal\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 use HoneyCal\Tests\Habits\Domain\ActionGenerator;
-use HoneyCal\Habits\Domain\Errors\InvalidActionData;
 use HoneyCal\Habits\Domain\Errors\InvalidRecurrenceData;
+use HoneyCal\Tests\Habits\HabitsModuleUnitTestCase;
 
-class RecurrenceTest extends UnitTestCase
+class RecurrenceTest extends HabitsModuleUnitTestCase
 {
     /** @test */
     public function throws_error_for_invalid_recurrence_every_modifier(): void
     {
         $this->expectException(InvalidRecurrenceData::class);
 
-        $action = ActionGenerator::generate(
+        ActionGenerator::generate(
             recurrence: [
                 'every' => 'month',
                 'on' => 'tuesday',
@@ -30,7 +29,7 @@ class RecurrenceTest extends UnitTestCase
     {
         $this->expectException(InvalidRecurrenceData::class);
 
-        $action = ActionGenerator::generate(
+        ActionGenerator::generate(
             recurrence: [
                 'every' => 'day',
                 'at' => '11:00',
@@ -44,7 +43,7 @@ class RecurrenceTest extends UnitTestCase
     {
         $this->expectException(InvalidRecurrenceData::class);
 
-        $action = ActionGenerator::generate(
+        ActionGenerator::generate(
             recurrence: [
                 'every' => 'day',
                 'at' => '11:00',
@@ -59,7 +58,7 @@ class RecurrenceTest extends UnitTestCase
     {
         $this->expectException(InvalidRecurrenceData::class);
 
-        $action = ActionGenerator::generate(
+        ActionGenerator::generate(
             recurrence: [
                 'every' => 'day',
                 'at' => '11',
