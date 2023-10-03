@@ -2,7 +2,10 @@
 
 namespace HoneyCal\Habits\Infrastructure\Persistence;
 
+use HoneyCal\Habits\Domain\Action;
+use HoneyCal\Habits\Domain\ActionId;
 use HoneyCal\Habits\Domain\ActionRepository;
+use HoneyCal\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 final class DoctrineActionRepository extends DoctrineRepository implements ActionRepository
 {

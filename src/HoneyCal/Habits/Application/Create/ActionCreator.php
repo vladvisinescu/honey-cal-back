@@ -21,13 +21,13 @@ final class ActionCreator
         ActionTitle $title,
         Recurrence $recurrence,
         CreatedAtValueObject $createdAt,
-        NextOccurrenceValueObject $nextOccurrence
+        // ?NextOccurrenceValueObject $nextOccurrence = null
     ): void {
+
         $action = Action::create(
             $title,
             $recurrence,
-            $createdAt,
-            $nextOccurrence
+            $createdAt
         );
 
         $this->repository->store($action);

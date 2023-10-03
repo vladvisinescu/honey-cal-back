@@ -10,4 +10,9 @@ final class CreatedAtValueObject extends \HoneyCal\Shared\Domain\ValueObject\Dat
     {
         return $this->value() < new DateTimeImmutable();
     }
+
+    public function isBeforeToday(): bool
+    {
+        return $this->value() < new DateTimeImmutable('today');
+    }
 }

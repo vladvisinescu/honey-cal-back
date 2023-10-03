@@ -21,7 +21,7 @@ class InMemorySymfonyCommandBus implements CommandBus
         $this->bus = new MessageBus(
             [
                 new HandleMessageMiddleware(
-                    new HandlersLocator(HandlerBuilder::fromCallables($commandHandlers))
+                    new HandlersLocator(HandlerBuilder::forCallables($commandHandlers))
                 ),
             ]
         );

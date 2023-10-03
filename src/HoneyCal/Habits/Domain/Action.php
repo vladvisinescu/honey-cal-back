@@ -16,7 +16,7 @@ final class Action extends AggregateRoot
         private ActionTitle $title,
         private Recurrence $recurrence,
         private CreatedAtValueObject $createdAt,
-        private NextOccurrenceValueObject $nextOccurrence
+        private ?NextOccurrenceValueObject $nextOccurrence = null
     ) {}
 
     public static function fromPrimitives(
@@ -43,7 +43,7 @@ final class Action extends AggregateRoot
         ActionTitle $title,
         Recurrence $recurrence,
         CreatedAtValueObject $createdAt,
-        NextOccurrenceValueObject $nextOccurrence
+        ?NextOccurrenceValueObject $nextOccurrence = null
     ): self {
         $id = ActionId::random();
 
@@ -51,9 +51,9 @@ final class Action extends AggregateRoot
             throw new InvalidActionData('Invalid action title.');
         }
 
-        if ($createdAt->value() < new DateTimeImmutable()) {
-            throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
-        }
+        // if ($createdAt->isInThePast()) {
+        //     throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
+        // }
 
         if (!$recurrence) {
             throw new InvalidActionData('Invalid action recurrence.');

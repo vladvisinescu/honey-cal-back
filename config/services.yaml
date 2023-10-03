@@ -33,6 +33,13 @@ services:
   HoneyCal\:
     resource: "../src/HoneyCal"
 
-  HoneyCal\Shared\Domain\Bus\Command\CommandBus:
-    class: HoneyCal\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus
+  # -- TAGGING --
+  HoneyCal\Shared\Infrastructure\Bus\Event\InMemory\InMemorySymfonyEventBus:
+    arguments: [!tagged internal.domain_event_subscriber]
+    lazy: true
+
+  HoneyCal\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
     arguments: [!tagged internal.command_handler]
+
+  HoneyCal\Shared\Infrastructure\Bus\Query\InMemorySymfonyQueryBus:
+    arguments: [!tagged internal.query_handler]
