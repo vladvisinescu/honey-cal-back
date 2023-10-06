@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Tests\Shared\Infrastructure\PhpUnit;
 
+use HoneyCal\Tests\Shared\Domain\TestUtils;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 abstract class InfrastructureTestCase extends KernelTestCase
@@ -15,6 +16,11 @@ abstract class InfrastructureTestCase extends KernelTestCase
         self::bootKernel(['environment' => 'test']);
 
         parent::setUp();
+    }
+
+    protected function assertSimilar($expected, $actual): void
+    {
+        TestUtils::assertSimilar($expected, $actual);
     }
 
     protected function service(string $id): mixed
