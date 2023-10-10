@@ -2,4 +2,6 @@
 
 namespace HoneyCal\Shared\Domain\Bus\Query;
 
-interface Response {}
+use JsonSerializable;
+
+interface Response extends JsonSerializable {}

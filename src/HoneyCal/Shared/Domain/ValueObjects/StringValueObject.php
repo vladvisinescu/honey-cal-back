@@ -1,23 +1,18 @@
 <?php
 
-namespace HoneyCal\Shared\Domain\ValueObject;
+namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
 
 abstract class StringValueObject implements Stringable
 {
     public function __construct(
-        private string $value,
+        public string $value,
     ) {}
 
     public function value(): string
     {
         return $this->value;
-    }
-
-    public static function fromString(string $value): self
-    {
-        return new static($value);
     }
 
     public function equals(StringValueObject $other): bool

@@ -3,7 +3,7 @@
 namespace HoneyCal\Habits\Domain;
 
 use HoneyCal\Habits\Domain\Errors\InvalidActionData;
-use HoneyCal\Shared\Domain\ValueObject\StringValueObject;
+use HoneyCal\Shared\Domain\ValueObjects\StringValueObject;
 
 final class ActionTitle extends StringValueObject
 {

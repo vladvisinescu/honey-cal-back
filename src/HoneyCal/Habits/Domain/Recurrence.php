@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Habits\Domain;
 
+use DateTimeImmutable;
 use HoneyCal\Habits\Domain\Errors\InvalidRecurrenceData;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\AtModifierValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\EndingModifierValueObject;
@@ -13,6 +14,7 @@ use HoneyCal\Shared\Domain\Utils;
 
 final class Recurrence extends Aggregate
 {
+    public ?string $value = null;
     private const EVERY = ['hour', 'day', 'week'];
     private const ON = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
@@ -32,16 +34,16 @@ final class Recurrence extends Aggregate
         ?string $ending = null,
     ): self {
         return self::create(
-            every: EveryModifierValueObject::fromString($every),
-            on: $on ? OnModifierValueObject::fromString($on) : null,
-            at: $at ? AtModifierValueObject::fromString($at) : null,
-            starting: $starting ? StartingModifierValueObject::fromString($starting) : null,
-            ending: $ending ? EndingModifierValueObject::fromString($ending) : null,
+            every: new EveryModifierValueObject($every),
+            on: $on ? new OnModifierValueObject($on) : null,
+            at: $at ? new AtModifierValueObject($at) : null,
+            starting: $starting ? new StartingModifierValueObject(new DateTimeImmutable($starting)) : null,
+            ending: $ending ? new EndingModifierValueObject(new DateTimeImmutable($ending)) : null,
         );
     }
 
     public static function create(
-        EveryModifierValueObject $every = null,
+        EveryModifierValueObject $every,
         OnModifierValueObject $on = null,
         AtModifierValueObject $at = null,
         StartingModifierValueObject $starting = null,
@@ -71,14 +73,38 @@ final class Recurrence extends Aggregate
             }
         }
 
-        if ($starting && $starting->value() && !Utils::checkValidDateString($starting)) {
+        if ($starting && !Utils::checkValidDateString((string) $starting)) {
             throw new InvalidRecurrenceData('Invalid recurrence starting date format.');
         }
 
-        if ($ending && $ending->value() && !Utils::checkValidDateString($ending)) {
+        if ($ending && !Utils::checkValidDateString((string) $ending)) {
             throw new InvalidRecurrenceData('Invalid recurrence ending date format.');
         }
 
-        return new self($every, $on, $at, $starting, $ending);
+        $action = new self($every, $on, $at, $starting, $ending);
+        $action->setStringValue(json_encode($action->toPrimitives()));
+
+        return $action;
+    }
+
+    public function setStringValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
+    public function value(): array
+    {
+        return $this->toPrimitives();
+    }
+
+    public function toPrimitives(): array
+    {
+        return [
+            'every' => $this->every->value(),
+            'on' => $this->on ? $this->on->value() : null,
+            'at' => $this->at ? $this->at->value() : null,
+            'starting' => $this->starting ? $this->starting->value() : null,
+            'ending' => $this->ending ? $this->ending->value() : null
+        ];
     }
 }

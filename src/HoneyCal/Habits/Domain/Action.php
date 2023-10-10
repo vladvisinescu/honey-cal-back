@@ -27,15 +27,9 @@ final class Action extends AggregateRoot
     ): self {
         return static::create(
             ActionTitle::fromString($title),
-            Recurrence::fromPrimitives(
-                $recurrence['every'],
-                $recurrence['on'],
-                $recurrence['at'],
-                $recurrence['starting'],
-                $recurrence['ending'],
-            ),
-            CreatedAtValueObject::fromString($createdAt),
-            NextOccurrenceValueObject::fromString($nextOccurrence),
+            Recurrence::fromPrimitives(...$recurrence),
+            new CreatedAtValueObject(new DateTimeImmutable($createdAt)),
+            new NextOccurrenceValueObject(new DateTimeImmutable($nextOccurrence)),
         );
     }
 
@@ -47,7 +41,7 @@ final class Action extends AggregateRoot
     ): self {
         $id = ActionId::random();
 
-        if (!$title) {
+        if (!$title->value()) {
             throw new InvalidActionData('Invalid action title.');
         }
 
@@ -55,16 +49,47 @@ final class Action extends AggregateRoot
         //     throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
         // }
 
-        if (!$recurrence) {
-            throw new InvalidActionData('Invalid action recurrence.');
-        }
-
-        return new static(
+        return new self(
             $id,
             $title,
             $recurrence,
             $createdAt,
             $nextOccurrence
         );
+    }
+
+    public function id(): ActionId
+    {
+        return $this->id;
+    }
+
+    public function title(): ActionTitle
+    {
+        return $this->title;
+    }
+
+    public function recurrence(): Recurrence
+    {
+        return $this->recurrence;
+    }
+
+    public function createdAt(): CreatedAtValueObject
+    {
+        return $this->createdAt;
+    }
+
+    public function changeTitle(ActionTitle $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function changeRecurrence(Recurrence $recurrence): void
+    {
+        $this->recurrence = $recurrence;
+    }
+
+    public function changeNextOccurrence(NextOccurrenceValueObject $nextOccurrence): void
+    {
+        $this->nextOccurrence = $nextOccurrence;
     }
 }

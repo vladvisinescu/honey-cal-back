@@ -31,7 +31,6 @@ abstract class DoctrineRepository
 
     protected function persist(AggregateRoot $entity): void
     {
-        dd($entity);
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush($entity);
     }

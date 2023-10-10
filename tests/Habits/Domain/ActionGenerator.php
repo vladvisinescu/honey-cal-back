@@ -2,12 +2,12 @@
 
 namespace HoneyCal\Tests\Habits\Domain;
 
+use DateTimeImmutable;
 use HoneyCal\Habits\Domain\Action;
 use HoneyCal\Habits\Domain\ActionTitle;
 use HoneyCal\Habits\Domain\ValueObjects\Action\CreatedAtValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Action\NextOccurrenceValueObject;
 use HoneyCal\Tests\Shared\Domain\MainGenerator;
-
 
 class ActionGenerator
 {
@@ -19,8 +19,8 @@ class ActionGenerator
     ): Action {
         $actionTitle = ActionTitle::fromString($title ?? MainGenerator::random()->words(3, true));
         $recurrence = RecurrenceGenerator::generate($recurrence);
-        $createdAt = CreatedAtValueObject::fromString($createdAt ?? '2024-01-01 12:00');
-        $nextOccurrence = NextOccurrenceValueObject::fromString($nextOccurrence ?? '2024-02-01 16:00');
+        $createdAt = new CreatedAtValueObject(new DateTimeImmutable($createdAt ?? '2024-01-01 12:00'));
+        $nextOccurrence = new NextOccurrenceValueObject(new DateTimeImmutable($nextOccurrence ?? '2024-02-01 16:00'));
 
         return Action::create($actionTitle, $recurrence, $createdAt, $nextOccurrence);
     }
@@ -30,8 +30,8 @@ class ActionGenerator
         return [
             'title' => ActionTitle::fromString(MainGenerator::random()->words(3, true))->value(),
             'recurrence' => RecurrenceGenerator::generatePrimitives(),
-            'createdAt' => CreatedAtValueObject::fromString('2021-01-01 12:00')->value(),
-            'nextOccurrence' => NextOccurrenceValueObject::fromString('2021-01-01 12:00')->value(),
+            'createdAt' => (new CreatedAtValueObject(new DateTimeImmutable('2021-01-01 12:00')))->value(),
+            'nextOccurrence' => (new NextOccurrenceValueObject(new DateTimeImmutable('2021-01-01 12:00')))->value(),
         ];
     }
 }

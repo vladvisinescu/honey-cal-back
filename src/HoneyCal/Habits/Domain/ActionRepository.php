@@ -7,4 +7,6 @@ interface ActionRepository
     public function store(Action $action): void;
 
     public function get(ActionId $id): Action;
+
+    public function searchAll(): array;
 }

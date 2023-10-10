@@ -5,11 +5,15 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="HoneyCal\Habits\Domain\Action" table="actions">
-        <id name="id" type="course_id" column="id" length="36" />
+        <id name="id" type="action_id" column="id" length="36" />
 
         <embedded name="title" class="HoneyCal\Habits\Domain\ActionTitle" use-column-prefix="false" />
         <embedded name="recurrence" class="HoneyCal\Habits\Domain\Recurrence" use-column-prefix="false" />
-        <embedded name="created_at" class="HoneyCal\Habits\Domain\ValueObjects\Action\CreatedAtValueObject" use-column-prefix="false" />
-        <embedded name="next_occurrence" class="HoneyCal\Habits\Domain\ValueObjects\Action\NextOccurrenceValueObject" use-column-prefix="false" />
+
+        <field name="createdAt" column="created_at" type="created_at" />
+        <field name="nextOccurrence" column="next_occurrence" type="next_occurrence" />
+        <!-- <field name="createdAt" column="created_at" type="datetime" />
+        <field name="nextOccurrence" column="next_occurrence" type="datetime" /> -->
+        <!-- <embedded name="next_occurrence" class="HoneyCal\Habits\Domain\ValueObjects\Action\NextOccurrenceValueObject" use-column-prefix="false" /> -->
     </entity>
 </doctrine-mapping>

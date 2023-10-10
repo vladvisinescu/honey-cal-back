@@ -1,6 +1,6 @@
 <?php
 
-namespace HoneyCal\Shared\Domain\ValueObject;
+namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
 
@@ -26,7 +26,7 @@ abstract class TimeValueObject implements Stringable
 
     public function equals(DateTimeValueObject $other): bool
     {
-        return $this->value() === $other->value();
+        return $this->value() == $other->value();
     }
 
     public static function ensureIsValidTime(string $date): bool

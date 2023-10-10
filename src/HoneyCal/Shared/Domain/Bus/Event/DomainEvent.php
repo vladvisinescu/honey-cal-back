@@ -3,7 +3,7 @@
 namespace HoneyCal\Shared\Domain\Bus\Event;
 
 use HoneyCal\Shared\Domain\Utils;
-use HoneyCal\Shared\Domain\ValueObject\Uuid;
+use HoneyCal\Shared\Domain\ValueObjects\Uuid;
 use DateTimeImmutable;
 
 abstract class DomainEvent

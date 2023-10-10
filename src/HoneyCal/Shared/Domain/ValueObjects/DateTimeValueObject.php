@@ -1,6 +1,6 @@
 <?php
 
-namespace HoneyCal\Shared\Domain\ValueObject;
+namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
 use DateTimeImmutable;
@@ -14,16 +14,11 @@ abstract class DateTimeValueObject implements Stringable
     public function value(): DateTimeImmutable
     {
         return $this->value;
-}
+    }
 
     public function equals(DateTimeValueObject $other): bool
     {
         return $this->value() === $other->value();
-    }
-
-    public static function fromString(string $date): self
-    {
-        return new static(new DateTimeImmutable($date));
     }
 
     public function __toString(): string
