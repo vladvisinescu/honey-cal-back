@@ -78,6 +78,11 @@ final class Action extends AggregateRoot
         return $this->createdAt;
     }
 
+    public function nextOccurrence(): ?NextOccurrenceValueObject
+    {
+        return $this->nextOccurrence;
+    }
+
     public function changeTitle(ActionTitle $title): void
     {
         $this->title = $title;

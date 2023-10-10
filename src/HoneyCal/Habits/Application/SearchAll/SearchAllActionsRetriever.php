@@ -30,7 +30,8 @@ final class SearchAllActionsRetriever
             $action->id()->value(),
             $action->title()->value(),
             $action->createdAt(),
-            // $action->recurrence()->value(),
+            $action->nextOccurrence(),
+            $action->recurrence()->value(),
         );
     }
 }

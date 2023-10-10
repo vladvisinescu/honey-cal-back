@@ -11,7 +11,8 @@ final class ActionResponse implements Response
         private readonly string $title,
         // private readonly string $description,
         private readonly string $createdAt,
-        // private readonly array $recurrence,
+        private readonly string $nextOccurrence,
+        private readonly array $recurrence,
     ) {}
 
     public function id(): string
@@ -34,10 +35,15 @@ final class ActionResponse implements Response
         return $this->createdAt;
     }
 
-    // public function recurrence(): array
-    // {
-    //     return $this->recurrence;
-    // }
+    public function nextOccurrence(): string
+    {
+        return $this->nextOccurrence;
+    }
+
+    public function recurrence(): array
+    {
+        return $this->recurrence;
+    }
 
     public function jsonSerialize(): mixed
     {
@@ -45,8 +51,9 @@ final class ActionResponse implements Response
             'id' => $this->id(),
             'title' => $this->title(),
             // 'description' => $this->description(),
-            'createdAt' => $this->createdAt(),
-            // 'recurrence' => $this->recurrence(),
+            'created_at' => $this->createdAt(),
+            'next_occurrence' => $this->nextOccurrence(),
+            'recurrence' => $this->recurrence(),
         ];
     }
 }
