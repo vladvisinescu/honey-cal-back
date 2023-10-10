@@ -1,6 +1,10 @@
 doctrine:
   dbal:
     url: "%env(resolve:DATABASE_URL)%"
+    types:
+      action_id: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ActionIdType
+      created_at: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ValueObjects\Action\CreatedAtType
+      next_occurrence: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ValueObjects\Action\NextOccurrenceType
 
     # IMPORTANT: You MUST configure your server version,
     # either here or in the DATABASE_URL env var (see .env file)
@@ -13,13 +17,14 @@ doctrine:
     report_fields_where_declared: true
     validate_xml_mapping: true
     naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-    auto_mapping: true
+    # auto_mapping: true
     mappings:
       Action:
         is_bundle: false
-        dir: "%kernel.project_dir%/src/Entity"
-        prefix: 'App\Entity'
-        alias: App
+        type: xml
+        dir: "%kernel.project_dir%/src/HoneyCal/Habits/Infrastructure/Persistence/Doctrine/"
+        prefix: 'HoneyCal\Habits\Domain'
+        alias: HoneyCal
 
 when@test:
   doctrine:

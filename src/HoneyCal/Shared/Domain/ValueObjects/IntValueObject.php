@@ -1,6 +1,6 @@
 <?php
 
-namespace HoneyCal\Shared\Domain\ValueObject;
+namespace HoneyCal\Shared\Domain\ValueObjects;
 
 abstract class IntValueObject
 {

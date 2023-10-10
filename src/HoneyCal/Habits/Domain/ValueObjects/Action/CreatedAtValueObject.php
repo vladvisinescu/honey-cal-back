@@ -3,8 +3,9 @@
 namespace HoneyCal\Habits\Domain\ValueObjects\Action;
 
 use DateTimeImmutable;
+use HoneyCal\Shared\Domain\ValueObjects\DateTimeValueObject;
 
-final class CreatedAtValueObject extends \HoneyCal\Shared\Domain\ValueObject\DateTimeValueObject
+final class CreatedAtValueObject extends DateTimeValueObject
 {
     public function isInThePast(): bool
     {

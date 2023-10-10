@@ -2,14 +2,15 @@
 
 namespace HoneyCal\Shared\Infrastructure\Persistence\Doctrine;
 
+use DateTimeImmutable;
 use ReflectionClass;
-use Doctrine\DBAL\Types\StringType;
 use HoneyCal\Shared\Domain\Utils;
 use HoneyCal\Shared\Infrastructure\Doctrine\Dbal\DoctrineCustomType;
 use function Lambdish\Phunctional\last;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\DateType;
 
-abstract class UuidType extends StringType implements DoctrineCustomType
+abstract class DateTimeType extends DateType implements DoctrineCustomType
 {
     abstract protected function typeClassName(): string;
 
@@ -23,15 +24,19 @@ abstract class UuidType extends StringType implements DoctrineCustomType
         return self::customTypeName();
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
-        $className = $this->typeClassName();
 
-        return new $className($value);
+        $className = $this->typeClassName();
+        /** @psalm-suppress ArgumentTypeCoercion */
+        $class = new ReflectionClass($className);
+        $instance = $class->newInstanceArgs([new DateTimeImmutable($value)]);
+
+        return $instance;
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value->value();
+        return $value;
     }
 }

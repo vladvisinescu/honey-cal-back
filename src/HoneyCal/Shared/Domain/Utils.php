@@ -26,6 +26,10 @@ final class Utils
             throw new RuntimeException('Unable to parse response body into JSON: ' . json_last_error());
         }
 
+        if (!is_array($data)) {
+            throw new RuntimeException('Unable to parse response body into JSON');
+        }
+
         return $data;
     }
 

@@ -5,5 +5,11 @@ controllers:
   type: attribute
 
 actions.get:
+  methods: GET
   path: /api/actions
   controller: App\Controller\ActionsGetController
+
+actions.post:
+  methods: POST
+  path: /api/actions
+  controller: App\Controller\ActionsPostController

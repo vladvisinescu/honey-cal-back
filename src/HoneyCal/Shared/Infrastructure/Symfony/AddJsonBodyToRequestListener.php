@@ -15,7 +15,8 @@ final class AddJsonBodyToRequestListener
         $request = $event->getRequest();
         $requestContents = $request->getContent();
 
-        if (!empty($requestContents && $this->containsHeader($request, 'Content-Type', 'application/json'))) {
+        if (!($requestContents && $this->containsHeader($request, 'Content-Type', 'application/json'))) {
+            /** @var array */
             $jsonData = json_decode($requestContents, true, 512, JSON_THROW_ON_ERROR);
 
             if (!$jsonData) {
@@ -23,12 +24,14 @@ final class AddJsonBodyToRequestListener
             }
             $jsonDataLowerCase = [];
             foreach ($jsonData as $key => $value) {
-                $jsonDataLowerCase[preg_replace_callback(
+                $string = preg_replace_callback(
                     '/_(.)/',
                     static fn ($matches) => strtoupper($matches[1]),
                     $key
-                )] = $value;
+                );
+                $jsonDataLowerCase[$string] = $value;
             }
+
             $request->request->replace($jsonDataLowerCase);
         }
     }

@@ -19,7 +19,7 @@ WORKDIR /srv/app
 
 # persistent / runtime deps
 # hadolint ignore=DL3018
-RUN apk add --no-cache \
+RUN apk add --no-cache autoconf automake make gcc g++ bash icu-dev libzip-dev rabbitmq-c rabbitmq-c-dev \
     acl \
     fcgi \
     file \
@@ -30,12 +30,20 @@ RUN apk add --no-cache \
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
 COPY --from=php_extension_installer_upstream --link /usr/bin/install-php-extensions /usr/local/bin/
 
+ADD docker/rabbitmq/rabbitmq.sh /root/install-rabbitmq.sh
+RUN sh /root/install-rabbitmq.sh
+
 RUN set -eux; \
     install-php-extensions \
     apcu \
     intl \
     opcache \
     zip \
+    ;
+
+RUN docker-php-ext-enable \
+    amqp \
+    apcu \
     ;
 
 ###> recipes ###
@@ -64,7 +72,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 COPY --from=composer_upstream --link /composer /usr/bin/composer
-
 
 # Dev PHP image
 FROM php_base AS php_dev

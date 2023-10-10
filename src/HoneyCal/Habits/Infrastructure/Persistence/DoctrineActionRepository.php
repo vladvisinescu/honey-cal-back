@@ -18,4 +18,9 @@ final class DoctrineActionRepository extends DoctrineRepository implements Actio
     {
         return $this->repository(Action::class)->find($id);
     }
+
+    public function searchAll(): array
+    {
+        return $this->repository(Action::class)->findAll();
+    }
 }

@@ -2,4 +2,4 @@
 
 namespace HoneyCal\Habits\Domain\ValueObjects\Action;
 
-final class NextOccurrenceValueObject extends \HoneyCal\Shared\Domain\ValueObject\DateTimeValueObject {}
+final class NextOccurrenceValueObject extends \HoneyCal\Shared\Domain\ValueObjects\DateTimeValueObject {}

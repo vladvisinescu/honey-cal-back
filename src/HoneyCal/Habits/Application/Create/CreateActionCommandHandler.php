@@ -16,14 +16,6 @@ final class CreateActionCommandHandler implements CommandHandler
 
     public function __invoke(CreateActionCommand $command): void
     {
-
-            // ActionTitle $title,
-            // Recurrence $recurrence,
-            // CreatedAtValueObject $createdAt,
-            // NextOccurrenceValueObject $nextOccurrence
-
-        // dd($command);
-
         $title = new ActionTitle($command->title());
         $recurrence = Recurrence::fromPrimitives(...$command->recurrence());
         $createdAt = new CreatedAtValueObject(new DateTimeImmutable());
