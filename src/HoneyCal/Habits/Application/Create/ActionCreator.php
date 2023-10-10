@@ -3,6 +3,7 @@
 namespace HoneyCal\Habits\Application\Create;
 
 use HoneyCal\Habits\Domain\Action;
+use HoneyCal\Habits\Domain\ActionDescription;
 use HoneyCal\Habits\Domain\ActionRepository;
 use HoneyCal\Habits\Domain\ActionTitle;
 use HoneyCal\Habits\Domain\Recurrence;
@@ -19,15 +20,18 @@ final class ActionCreator
 
     public function __invoke(
         ActionTitle $title,
+        ActionDescription $description,
         Recurrence $recurrence,
         CreatedAtValueObject $createdAt,
-        // ?NextOccurrenceValueObject $nextOccurrence = null
+        ?NextOccurrenceValueObject $nextOccurrence = null
     ): void {
 
         $action = Action::create(
             $title,
+            $description,
             $recurrence,
-            $createdAt
+            $createdAt,
+            $nextOccurrence
         );
 
         $this->repository->store($action);

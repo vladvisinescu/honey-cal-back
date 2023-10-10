@@ -5,10 +5,8 @@ namespace HoneyCal\Habits\Infrastructure\Persistence\Doctrine;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use ReflectionClass;
 use Doctrine\DBAL\Types\StringType;
-use HoneyCal\Habits\Domain\ActionId;
 use HoneyCal\Habits\Domain\Recurrence;
 use HoneyCal\Shared\Infrastructure\Doctrine\Dbal\DoctrineCustomType;
-use HoneyCal\Shared\Infrastructure\Persistence\Doctrine\UuidType;
 
 final class RecurrenceType extends StringType implements DoctrineCustomType
 {

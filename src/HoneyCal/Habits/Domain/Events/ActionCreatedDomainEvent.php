@@ -12,7 +12,9 @@ final class ActionCreatedDomainEvent extends DomainEvent
         private readonly string $description,
         string $eventId = null,
         string $occurredOn = null
-    ) {}
+    ) {
+        parent::__construct($id, $eventId, $occurredOn);
+    }
 
     public static function eventName(): string
     {
@@ -20,13 +22,13 @@ final class ActionCreatedDomainEvent extends DomainEvent
     }
 
     public static function fromPrimitives(
-        string $id,
+        string $aggregateId,
         array $body,
-        string $eventId = null,
-        string $occurredOn = null
+        string $eventId,
+        string $occurredOn
     ): DomainEvent {
         return new self(
-            $id,
+            $aggregateId,
             $body['title'],
             $body['description'],
             $eventId,
@@ -40,6 +42,11 @@ final class ActionCreatedDomainEvent extends DomainEvent
             'title' => $this->title,
             'description' => $this->description,
         ];
+    }
+
+    public function id(): string
+    {
+        return $this->aggregateId();
     }
 
     public function title(): string

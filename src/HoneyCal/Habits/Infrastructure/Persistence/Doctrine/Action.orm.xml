@@ -8,8 +8,8 @@
         <id name="id" type="action_id" column="id" length="36" />
 
         <embedded name="title" class="HoneyCal\Habits\Domain\ActionTitle" use-column-prefix="false" />
+        <embedded name="description" class="HoneyCal\Habits\Domain\ActionDescription" use-column-prefix="false" />
 
-        <field name="description" column="user_id" type="text" />
         <field name="createdAt" column="created_at" type="created_at" />
         <field name="nextOccurrence" column="next_occurrence" type="next_occurrence" />
         <field name="recurrence" column="recurrence" type="recurrence" />

@@ -9,7 +9,7 @@ final class ActionResponse implements Response
     public function __construct(
         private readonly string $id,
         private readonly string $title,
-        // private readonly string $description,
+        private readonly string $description,
         private readonly string $createdAt,
         private readonly string $nextOccurrence,
         private readonly array $recurrence,
@@ -25,10 +25,10 @@ final class ActionResponse implements Response
         return $this->title;
     }
 
-    // public function description(): string
-    // {
-    //     return $this->description;
-    // }
+    public function description(): string
+    {
+        return $this->description;
+    }
 
     public function createdAt(): string
     {
@@ -50,7 +50,7 @@ final class ActionResponse implements Response
         return [
             'id' => $this->id(),
             'title' => $this->title(),
-            // 'description' => $this->description(),
+            'description' => $this->description(),
             'created_at' => $this->createdAt(),
             'next_occurrence' => $this->nextOccurrence(),
             'recurrence' => $this->recurrence(),

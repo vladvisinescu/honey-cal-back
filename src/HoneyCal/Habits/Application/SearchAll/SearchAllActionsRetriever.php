@@ -29,6 +29,7 @@ final class SearchAllActionsRetriever
         return static fn (Action $action) => new ActionResponse(
             $action->id()->value(),
             $action->title()->value(),
+            $action->description()->value(),
             $action->createdAt(),
             $action->nextOccurrence(),
             $action->recurrence()->value(),
