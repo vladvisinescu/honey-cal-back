@@ -24,9 +24,8 @@ abstract class DateTimeType extends DateType implements DoctrineCustomType
         return self::customTypeName();
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-
         $className = $this->typeClassName();
         /** @psalm-suppress ArgumentTypeCoercion */
         $class = new ReflectionClass($className);

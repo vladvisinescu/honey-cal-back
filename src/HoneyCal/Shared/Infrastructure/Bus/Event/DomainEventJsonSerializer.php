@@ -6,7 +6,7 @@ use HoneyCal\Shared\Domain\Bus\Event\DomainEvent;
 
 final class DomainEventJsonSerializer
 {
-    public function serialize(DomainEvent $domainEvent): string
+    public static function serialize(DomainEvent $domainEvent): string
     {
         return json_encode(
             [

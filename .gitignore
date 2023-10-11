@@ -8,6 +8,7 @@
 /vendor/
 /docker/db/
 /var/db/data/
+/var/php
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
