@@ -92,6 +92,14 @@ final class Recurrence extends Aggregate
         $this->value = $value;
     }
 
+    public static function getConstants(): array
+    {
+        return [
+            'EVERY' => self::EVERY,
+            'ON' => self::ON,
+        ];
+    }
+
     public function value(): array
     {
         return $this->toPrimitives();

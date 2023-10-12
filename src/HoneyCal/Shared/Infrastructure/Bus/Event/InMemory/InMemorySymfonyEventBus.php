@@ -16,15 +16,13 @@ class InMemorySymfonyEventBus implements EventBus
 
     public function __construct(iterable $subscribers)
     {
-        $this->bus = new MessageBus(
-            [
-                new HandleMessageMiddleware(
-                    new HandlersLocator(
-                        HandlerBuilder::forPipedCallables($subscribers)
-                    )
+        $this->bus = new MessageBus([
+            new HandleMessageMiddleware(
+                new HandlersLocator(
+                    HandlerBuilder::forPipedCallables($subscribers)
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     public function publish(DomainEvent ...$events): void

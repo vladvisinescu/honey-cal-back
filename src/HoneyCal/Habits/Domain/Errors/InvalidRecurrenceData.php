@@ -8,9 +8,7 @@ final class InvalidRecurrenceData extends DomainError
 {
     public function __construct(
         protected string $errorMessage
-    ) {
-        parent::__construct($this->errorMessage);
-    }
+    ) {}
 
     public function errorCode(): string
     {

@@ -11,18 +11,9 @@ final class ActionsGetController extends ApiController
 {
     public function __invoke(Request $request)
     {
-        // $this->dispatch(
-        //     new CreateActionCommand(
-        //         title: $request->query->get('title'),
-        //         description: $request->query->get('description'),
-        //         recurrence: $request->query->all()['recurrence'],
-        //     )
-        // );
-
         $response = $this->ask(
             new SearchAllActionsQuery()
         );
-
 
         return new JsonResponse(
             $response,
@@ -32,6 +23,11 @@ final class ActionsGetController extends ApiController
     }
 
     protected function exceptions(): array
+    {
+        return [];
+    }
+
+    protected function validationConstraints(): array
     {
         return [];
     }

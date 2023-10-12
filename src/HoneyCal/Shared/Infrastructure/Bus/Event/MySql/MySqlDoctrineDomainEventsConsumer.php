@@ -63,6 +63,6 @@ final class MySqlDoctrineDomainEventsConsumer
 
     private function idExtractor(): callable
     {
-        return static fn (array $event): string => "'${event['id']}'";
+        return static fn (array $event): string => "'{$event['id']}'";
     }
 }

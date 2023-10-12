@@ -3,7 +3,9 @@
 namespace HoneyCal\Shared\Infrastructure\Bus\Event;
 
 use HoneyCal\Shared\Domain\Bus\Event\DomainEvent;
+use HoneyCal\Shared\Domain\Logger;
 use HoneyCal\Shared\Domain\Utils;
+use RuntimeException;
 
 final class DomainEventJsonDeserializer
 {

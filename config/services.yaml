@@ -98,4 +98,12 @@ services:
       - "%env(RABBITMQ_EXCHANGE)%"
       - !tagged internal.domain_event_subscriber
 
+  HoneyCal\Shared\Infrastructure\Symfony\ApiExceptionListener:
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: kernel.exception,
+          method: onException,
+        }
+
   HoneyCal\Shared\Domain\Bus\Event\EventBus: '@HoneyCal\Shared\Infrastructure\Bus\Event\Prometheus\WithPrometheusMonitoringEventBus'
