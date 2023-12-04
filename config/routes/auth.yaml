@@ -1,0 +1,5 @@
+# create
+auth.register:
+  methods: POST
+  path: /api/auth
+  controller: App\Controller\Auth\AuthRegisterController

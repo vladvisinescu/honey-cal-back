@@ -8,13 +8,9 @@ use HoneyCal\Shared\Domain\Bus\Query\Query;
 use HoneyCal\Shared\Domain\Bus\Query\QueryBus;
 use HoneyCal\Shared\Domain\Bus\Query\Response;
 use HoneyCal\Shared\Domain\Validation;
-use HoneyCal\Shared\Domain\Validator;
-use HoneyCal\Shared\Infrastructure\Validator\SymfonyValidator;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Collection;
 
 use function Lambdish\Phunctional\each;
-use function Lambdish\Phunctional\map;
 
 abstract class ApiController
 {
@@ -50,11 +46,8 @@ abstract class ApiController
 
     public function validateRequest(): void
     {
-        $this
-            ->validator
-            ->setConstraints(
-                new Collection($this->validationConstraints())
-            )
+        $this->validator
+            ->setConstraints(new Collection($this->validationConstraints()))
             ->validate();
     }
 }

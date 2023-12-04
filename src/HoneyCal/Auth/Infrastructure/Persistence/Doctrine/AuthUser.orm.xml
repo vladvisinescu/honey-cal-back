@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="HoneyCal\Auth\Domain\AuthUser" table="auth_users">
+        <id name="id" type="auth_user_id" column="id" length="36" />
+
+        <embedded name="email" class="HoneyCal\Auth\Domain\AuthUserEmail" use-column-prefix="false" />
+        <embedded name="first_name" class="HoneyCal\Auth\Domain\AuthUserFirstName" use-column-prefix="false" />
+        <embedded name="last_name" class="HoneyCal\Auth\Domain\AuthUserLastName" use-column-prefix="false" />
+        <embedded name="password" class="HoneyCal\Auth\Domain\AuthUserPassword" use-column-prefix="false" />
+
+        <field name="createdAt" column="created_at" type="created_at" />
+        <field name="updatedAt" column="updated_at" type="updated_at" />
+    </entity>
+</doctrine-mapping>

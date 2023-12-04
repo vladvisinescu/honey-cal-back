@@ -1,0 +1,23 @@
+# create
+actions.post:
+  methods: POST
+  path: /api/actions
+  controller: App\Controller\ActionsPostController
+
+# search by criteria
+actions.search:
+  methods: GET
+  path: /api/actions/search
+  controller: App\Controller\ActionsSearchController
+
+# search all
+actions.get:
+  methods: GET
+  path: /api/actions
+  controller: App\Controller\ActionsGetController
+
+# search one
+actions.getOne:
+  methods: GET
+  path: /api/actions/{id}
+  controller: App\Controller\ActionsGetOneController

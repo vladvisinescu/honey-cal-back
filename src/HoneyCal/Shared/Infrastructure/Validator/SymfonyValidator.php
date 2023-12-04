@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validation as ValidatorValidation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SymfonyValidator implements Validation

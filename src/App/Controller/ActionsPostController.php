@@ -8,7 +8,6 @@ use HoneyCal\Shared\Infrastructure\Symfony\ApiController;
 use HoneyCal\Shared\Infrastructure\Validator\RequestValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Date;
@@ -16,7 +15,8 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NoSuspiciousCharacters;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Validator\Constraints\Optional;
+use Symfony\Component\Validator\Constraints\Type;
 
 final class ActionsPostController extends ApiController
 {
@@ -50,11 +50,11 @@ final class ActionsPostController extends ApiController
             'title' => [new NotBlank(), new Length(['min' => 1, 'max' => 1]), new NoSuspiciousCharacters()],
             'description' => [new Length(['min' => 1, 'max' => 2000]), new NoSuspiciousCharacters()],
             'recurrence' =>  new Collection([
-                'every' => [new NotBlank(), new Choice(Recurrence::getConstants()['EVERY'])],
-                'on' => [new Choice(Recurrence::getConstants()['ON'])],
-                'at' => [new NoSuspiciousCharacters()],
-                'starting' => [new Date()],
-                'ending' => [new Date()],
+                'every' => [new NotBlank(), new Type('string'), new Choice(Recurrence::getConstants()['EVERY'])],
+                'on' => new Optional([new Type('string'), new Choice(Recurrence::getConstants()['ON'])]),
+                'at' => new Optional([new Type('string'), new NoSuspiciousCharacters(), new DateTime('H:i')]),
+                'starting' => new Optional([new Type('string'), new Date()]),
+                'ending' => new Optional([new Type('string'), new Date()]),
             ]),
         ];
     }

@@ -4,6 +4,7 @@ namespace HoneyCal\Habits\Application\Create;
 
 use HoneyCal\Habits\Domain\Action;
 use HoneyCal\Habits\Domain\ActionDescription;
+use HoneyCal\Habits\Domain\ActionId;
 use HoneyCal\Habits\Domain\ActionRepository;
 use HoneyCal\Habits\Domain\ActionTitle;
 use HoneyCal\Habits\Domain\Recurrence;
@@ -26,7 +27,10 @@ final class ActionCreator
         ?NextOccurrenceValueObject $nextOccurrence = null
     ): void {
 
+        $uuid = ActionId::random();
+
         $action = Action::create(
+            $uuid,
             $title,
             $description,
             $recurrence,

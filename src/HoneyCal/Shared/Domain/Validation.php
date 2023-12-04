@@ -10,5 +10,7 @@ interface Validation
 {
     public function validate(): void;
 
+    public function setConstraints(Collection $constraints): self;
+
     public function errors(): ConstraintViolationListInterface|null;
 }

@@ -22,6 +22,7 @@ final class Action extends AggregateRoot
     ) {}
 
     public static function fromPrimitives(
+        string $id,
         string $title,
         string $description,
         array $recurrence,
@@ -29,6 +30,7 @@ final class Action extends AggregateRoot
         string $nextOccurrence
     ): self {
         return static::create(
+            ActionId::fromString($id),
             ActionTitle::fromString($title),
             ActionDescription::fromString($description),
             Recurrence::fromPrimitives(...$recurrence),
@@ -38,16 +40,20 @@ final class Action extends AggregateRoot
     }
 
     public static function create(
+        ActionId $id,
         ActionTitle $title,
         ActionDescription $description,
         Recurrence $recurrence,
         CreatedAtValueObject $createdAt,
         ?NextOccurrenceValueObject $nextOccurrence = null
     ): self {
-        $id = ActionId::random();
 
-        if (!$title->value()) {
-            throw new InvalidActionData('Invalid action title.');
+        if('' === $id->value()) {
+            throw new InvalidActionData('Action UUID cannot be empty.');
+        }
+
+        if('' === $title->value()) {
+            throw new InvalidActionData('Action title cannot be empty.');
         }
 
         // if ($createdAt->isInThePast()) {

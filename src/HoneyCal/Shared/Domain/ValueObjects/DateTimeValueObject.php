@@ -21,6 +21,16 @@ abstract class DateTimeValueObject implements Stringable
         return $this->value() === $other->value();
     }
 
+    public function isInThePast(): bool
+    {
+        return $this->value() < new DateTimeImmutable();
+    }
+
+    public function isBeforeToday(): bool
+    {
+        return $this->value() < new DateTimeImmutable('today');
+    }
+
     public function __toString(): string
     {
         return $this->value->format('Y-m-d H:i:s');

@@ -25,7 +25,7 @@ class Uuid implements Stringable
 
     public static function fromString(string $value): self
     {
-        return new self($value);
+        return new static($value);
     }
 
     public function __toString(): string
