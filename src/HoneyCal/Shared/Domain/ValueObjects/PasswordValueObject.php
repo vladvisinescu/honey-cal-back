@@ -9,7 +9,7 @@ abstract class PasswordValueObject implements Stringable
 {
     public const COST = 12;
 
-    private function __construct(
+    public function __construct(
         private string $hashedPassword,
     ) {}
 

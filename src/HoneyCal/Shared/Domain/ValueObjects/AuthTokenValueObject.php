@@ -4,10 +4,10 @@ namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
 
-abstract class StringValueObject implements Stringable
+final class AuthTokenValueObject implements Stringable
 {
     public function __construct(
-        public ?string $value = '',
+        private string $value,
     ) {}
 
     public function value(): string
@@ -15,13 +15,8 @@ abstract class StringValueObject implements Stringable
         return $this->value;
     }
 
-    public function equals(StringValueObject $other): bool
-    {
-        return $this->value() === $other->value();
-    }
-
     public function __toString(): string
     {
-        return $this->value;
+        return $this->value();
     }
 }

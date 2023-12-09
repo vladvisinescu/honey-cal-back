@@ -4,15 +4,12 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="HoneyCal\Auth\Domain\AuthUser" table="auth_users">
-        <id name="id" type="auth_user_id" column="id" length="36" />
+    <entity name="HoneyCal\Auth\Domain\AuthToken" table="auth_tokens">
+        <id name="id" type="auth_token_id" column="id" length="36" />
 
-        <field name="email" column="email" type="email" />
-        <field name="firstName" column="first_name" type="string" />
-        <field name="lastName" column="last_name" type="string" />
-        <field name="password" column="password" type="string" />
-
+        <field name="token" column="token" type="auth_token_value" />
+        <field name="userId" column="auth_user_id" type="user_id" />
         <field name="createdAt" column="created_at" type="created_at" />
-        <field name="updatedAt" column="updated_at" type="updated_at" />
+        <field name="expiresAt" column="expires_at" type="expires_at" />
     </entity>
 </doctrine-mapping>

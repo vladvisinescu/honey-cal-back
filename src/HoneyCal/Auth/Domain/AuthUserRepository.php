@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Auth\Domain;
 
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserId;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 
 interface AuthUserRepository

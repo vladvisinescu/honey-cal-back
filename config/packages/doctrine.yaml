@@ -2,10 +2,16 @@ doctrine:
   dbal:
     url: "%env(resolve:DATABASE_URL)%"
     types:
+      auth_token_value: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\AuthTokenValueType
+      uuid: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\UuidType
+      created_at: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\CreatedAtType
+      updated_at: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\UpdatedAtType
+      email: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\EmailType
+      user_id: HoneyCal\Shared\Infrastructure\Persistence\Doctrine\UserIdType
       action_id: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ActionIdType
-      created_at: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ValueObjects\Action\CreatedAtType
       next_occurrence: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\ValueObjects\Action\NextOccurrenceType
       recurrence: HoneyCal\Habits\Infrastructure\Persistence\Doctrine\RecurrenceType
+      auth_user_id: HoneyCal\Auth\Infrastructure\Persistence\Doctrine\AuthUserIdType
 
     # IMPORTANT: You MUST configure your server version,
     # either here or in the DATABASE_URL env var (see .env file)
@@ -20,12 +26,21 @@ doctrine:
     naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
     auto_mapping: false
     mappings:
+      AuthUser:
+        is_bundle: false
+        type: xml
+        dir: "%kernel.project_dir%/src/HoneyCal/Auth/Infrastructure/Persistence/Doctrine/"
+        prefix: 'HoneyCal\Auth\Domain'
+      AuthToken:
+        is_bundle: false
+        type: xml
+        dir: "%kernel.project_dir%/src/HoneyCal/Auth/Infrastructure/Persistence/Doctrine/"
+        prefix: 'HoneyCal\Auth\Domain'
       Action:
         is_bundle: false
         type: xml
         dir: "%kernel.project_dir%/src/HoneyCal/Habits/Infrastructure/Persistence/Doctrine/"
         prefix: 'HoneyCal\Habits\Domain'
-        alias: HoneyCal
 
 when@test:
   doctrine:

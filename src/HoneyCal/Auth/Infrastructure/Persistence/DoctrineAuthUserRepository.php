@@ -3,8 +3,8 @@
 namespace HoneyCal\Auth\Infrastructure\Persistence;
 
 use HoneyCal\Auth\Domain\AuthUser;
-use HoneyCal\Auth\Domain\AuthUserId;
 use HoneyCal\Auth\Domain\AuthUserRepository;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserId;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 use HoneyCal\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 

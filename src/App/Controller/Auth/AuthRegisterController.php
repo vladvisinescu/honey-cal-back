@@ -14,11 +14,13 @@ final class AuthRegisterController extends ApiController
     public function __invoke(
         Request $request
     ) {
-        $email = (string) $request->request->get('email');
-        $password = (string) $request->request->get('password');
+        $firstName = (string) $request->query->get('first_name');
+        $lastName = (string) $request->query->get('last_name');
+        $email = (string) $request->query->get('email');
+        $password = (string) $request->query->get('password');
 
         $this->dispatch(
-            new RegisterUserCommand($email, $password)
+            new RegisterUserCommand($firstName, $lastName, $email, $password)
         );
 
         return new JsonResponse([], Response::HTTP_CREATED);
@@ -34,6 +36,8 @@ final class AuthRegisterController extends ApiController
     protected function validationConstraints(): array
     {
         return [
+            'first_name' => [],
+            'last_name' => [],
             'email' => [],
             'password' => [],
         ];

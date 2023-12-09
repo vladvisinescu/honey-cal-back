@@ -2,23 +2,36 @@
 
 namespace HoneyCal\Auth\Application\Register;
 
+use HoneyCal\Auth\Domain\AuthTokenRepository;
 use HoneyCal\Auth\Domain\AuthUser;
-use HoneyCal\Auth\Domain\AuthUserEmail;
-use HoneyCal\Auth\Domain\AuthUserId;
-use HoneyCal\Auth\Domain\AuthUserPassword;
 use HoneyCal\Auth\Domain\AuthUserRepository;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserCreatedAt;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserEmail;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserFirstName;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserId;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserLastName;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserPassword;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserUpdatedAt;
 use HoneyCal\Shared\Domain\Bus\Event\EventBus;
 
 final class AuthUserCreator
 {
     public function __construct(
-        private readonly AuthUserRepository $repository,
+        private readonly AuthUserRepository $userRepository,
+        private readonly AuthTokenRepository $tokenRepository,
         private readonly EventBus $bus
     ) {}
 
-    public function __invoke(AuthUserEmail $email, AuthUserPassword $password)
-    {
+    public function __invoke(
+        AuthUserFirstName $firstName,
+        AuthUserLastName $lastName,
+        AuthUserEmail $email,
+        AuthUserPassword $password
+    ) {
         $uuid = AuthUserId::random();
+        $createdAt = AuthUserCreatedAt::now();
+        $updatedAt = AuthUserUpdatedAt::now();
+        $password = AuthUserPassword::fromPlainString($password);
 
         $authUser = AuthUser::create(
             $uuid,
@@ -30,7 +43,8 @@ final class AuthUserCreator
             $updatedAt,
         );
 
-        $this->repository->store($authUser);
+        $this->tokenRepository->createForUser($authUser->id());
+        $this->userRepository->store($authUser);
         $this->bus->publish(...$authUser->pullDomainEvents());
     }
 }

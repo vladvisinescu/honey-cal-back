@@ -3,6 +3,13 @@
 namespace HoneyCal\Auth\Domain;
 
 use HoneyCal\Auth\Domain\Errors\InvalidAuthUserData;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserCreatedAt;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserEmail;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserFirstName;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserId;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserLastName;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserPassword;
+use HoneyCal\Auth\Domain\ValueObjects\AuthUser\AuthUserUpdatedAt;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 
 final class AuthUser extends AggregateRoot
@@ -47,15 +54,13 @@ final class AuthUser extends AggregateRoot
             !$lastName->value() ||
             (strlen($lastName->value()) < 3) ||
             (strlen($lastName->value()) > 30)
-            ) {
+        ) {
             throw new InvalidAuthUserData('AuthUser last name cannot be empty.');
         }
 
         if (!$password->value()) {
             throw new InvalidAuthUserData('AuthUser password cannot be empty.');
         }
-
-        // @TODO LOGIC HERE
 
         return new self(
             $id,
@@ -66,5 +71,40 @@ final class AuthUser extends AggregateRoot
             $createdAt,
             $updatedAt,
         );
+    }
+
+    public function id(): AuthUserId
+    {
+        return $this->id;
+    }
+
+    public function email(): AuthUserEmail
+    {
+        return $this->email;
+    }
+
+    public function firstName(): AuthUserFirstName
+    {
+        return $this->firstName;
+    }
+
+    public function lastName(): AuthUserLastName
+    {
+        return $this->lastName;
+    }
+
+    public function password(): AuthUserPassword
+    {
+        return $this->password;
+    }
+
+    public function createdAt(): AuthUserCreatedAt
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): AuthUserUpdatedAt
+    {
+        return $this->updatedAt;
     }
 }

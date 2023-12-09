@@ -1,11 +1,11 @@
 <?php
 
-namespace HoneyCal\Auth\Domain;
+namespace HoneyCal\Auth\Domain\ValueObjects\AuthToken;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use HoneyCal\Shared\Domain\ValueObjects\Uuid;
 
-final class AuthUserId extends Uuid
+final class AuthTokenId extends Uuid
 {
     public static function random(): self
     {

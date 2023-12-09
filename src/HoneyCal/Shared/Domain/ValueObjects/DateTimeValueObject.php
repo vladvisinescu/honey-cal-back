@@ -16,6 +16,11 @@ abstract class DateTimeValueObject implements Stringable
         return $this->value;
     }
 
+    public static function now(): self
+    {
+        return new static(new DateTimeImmutable());
+    }
+
     public function equals(DateTimeValueObject $other): bool
     {
         return $this->value() === $other->value();

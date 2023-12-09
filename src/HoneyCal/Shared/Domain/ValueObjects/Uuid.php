@@ -5,10 +5,10 @@ namespace HoneyCal\Shared\Domain\ValueObjects;
 use Stringable;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
-class Uuid implements Stringable
+class Uuid extends StringValueObject implements Stringable
 {
     public function __construct(
-        private string $value,
+        public ?string $value,
     ) {
         $this->ensureIsValidUuid();
     }
@@ -20,7 +20,7 @@ class Uuid implements Stringable
 
     public static function random(): self
     {
-        return new self(RamseyUuid::uuid4()->toString());
+        return new static(RamseyUuid::uuid4()->toString());
     }
 
     public static function fromString(string $value): self
