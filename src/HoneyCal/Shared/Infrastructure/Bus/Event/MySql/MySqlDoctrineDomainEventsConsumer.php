@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HoneyCal\Shared\Infrastructure\Bus\Event\MySql;
 
+use Doctrine\DBAL\Exception;
 use HoneyCal\Shared\Domain\Utils;
 use HoneyCal\Shared\Infrastructure\Bus\Event\DomainEventMapping;
 use DateTimeImmutable;
@@ -23,6 +24,9 @@ final class MySqlDoctrineDomainEventsConsumer
         $this->connection = $entityManager->getConnection();
     }
 
+    /**
+     * @throws Exception
+     */
     public function consume(callable $subscribers, int $eventsToConsume): void
     {
         $events = $this->connection
@@ -34,7 +38,7 @@ final class MySqlDoctrineDomainEventsConsumer
         $ids = implode(', ', map($this->idExtractor(), $events));
 
         if (!empty($ids)) {
-            $this->connection->executeUpdate("DELETE FROM domain_events WHERE id IN ($ids)");
+            $this->connection->executeQuery("DELETE FROM domain_events WHERE id IN ($ids)");
         }
     }
 

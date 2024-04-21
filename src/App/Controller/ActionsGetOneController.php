@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class ActionsGetOneController extends ApiController
 {
-    public function __invoke()
+    public function __invoke(): JsonResponse
     {
         return new JsonResponse([]);
     }

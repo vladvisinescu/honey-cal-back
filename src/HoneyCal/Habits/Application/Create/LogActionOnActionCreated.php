@@ -6,7 +6,7 @@ use HoneyCal\Habits\Domain\Events\ActionCreatedDomainEvent;
 use HoneyCal\Shared\Domain\Bus\Event\DomainEventSubscriber;
 use Psr\Log\LoggerInterface;
 
-final class LogActionOnActionCreated implements DomainEventSubscriber
+final readonly class LogActionOnActionCreated implements DomainEventSubscriber
 {
 
     public function __construct(private LoggerInterface $logger) {}

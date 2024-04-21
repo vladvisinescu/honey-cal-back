@@ -8,6 +8,7 @@ use HoneyCal\Shared\Infrastructure\Symfony\ApiController;
 use HoneyCal\Shared\Infrastructure\Validator\RequestValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Date;
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Type;
 
 final class ActionsPostController extends ApiController
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $this->dispatch(
             new CreateActionCommand(
@@ -32,7 +33,7 @@ final class ActionsPostController extends ApiController
 
         return new JsonResponse(
             ['success' => true, 'message' => 'Action created successfully'],
-            JsonResponse::HTTP_CREATED,
+            Response::HTTP_CREATED,
             ['Access-Control-Allow-Origin' => '*']
         );
     }
@@ -40,7 +41,7 @@ final class ActionsPostController extends ApiController
     protected function exceptions(): array
     {
         return [
-            RequestValidationException::class => JsonResponse::HTTP_BAD_REQUEST,
+            RequestValidationException::class => Response::HTTP_BAD_REQUEST,
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace HoneyCal\Habits\Domain;
 
 use DateTimeImmutable;
+use Exception;
 use HoneyCal\Habits\Domain\Errors\InvalidRecurrenceData;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\AtModifierValueObject;
 use HoneyCal\Habits\Domain\ValueObjects\Recurrence\EndingModifierValueObject;
@@ -26,6 +27,9 @@ final class Recurrence extends Aggregate
         private ?EndingModifierValueObject $ending = null,
     ) {}
 
+    /**
+     * @throws Exception
+     */
     public static function fromPrimitives(
         string $every,
         ?string $on = null,
@@ -64,7 +68,6 @@ final class Recurrence extends Aggregate
             if ($every->value() !== 'week') {
                 throw new InvalidRecurrenceData('Invalid recurrence [every, on] combo.');
             }
-
         }
 
         if (!is_null($at)) {
@@ -81,10 +84,10 @@ final class Recurrence extends Aggregate
             throw new InvalidRecurrenceData('Invalid recurrence ending date format.');
         }
 
-        $action = new self($every, $on, $at, $starting, $ending);
-        $action->setStringValue(json_encode($action->toPrimitives()));
+        $recurrence = new self($every, $on, $at, $starting, $ending);
+        $recurrence->setStringValue(json_encode($recurrence->toPrimitives()));
 
-        return $action;
+        return $recurrence;
     }
 
     public function setStringValue(string $value): void

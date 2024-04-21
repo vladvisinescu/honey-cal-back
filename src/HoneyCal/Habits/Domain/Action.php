@@ -21,6 +21,9 @@ final class Action extends AggregateRoot
         private ?NextOccurrenceValueObject $nextOccurrence = null
     ) {}
 
+    /**
+     * @throws \Exception
+     */
     public static function fromPrimitives(
         string $id,
         string $title,
@@ -29,13 +32,13 @@ final class Action extends AggregateRoot
         string $createdAt,
         string $nextOccurrence
     ): self {
-        return static::create(
-            ActionId::fromString($id),
+        return self::create(
+            ActionId::from($id),
             ActionTitle::fromString($title),
             ActionDescription::fromString($description),
             Recurrence::fromPrimitives(...$recurrence),
-            new CreatedAtValueObject(new DateTimeImmutable($createdAt)),
-            new NextOccurrenceValueObject(new DateTimeImmutable($nextOccurrence)),
+            CreatedAtValueObject::fromString($createdAt),
+            NextOccurrenceValueObject::fromString($nextOccurrence),
         );
     }
 
@@ -55,10 +58,6 @@ final class Action extends AggregateRoot
         if('' === $title->value()) {
             throw new InvalidActionData('Action title cannot be empty.');
         }
-
-        // if ($createdAt->isInThePast()) {
-        //     throw new InvalidActionData('Invalid action creation date: cannot be in the past.');
-        // }
 
         $action = new self(
             $id,

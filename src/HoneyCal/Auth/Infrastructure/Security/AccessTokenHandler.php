@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Auth\Infrastructure\Security;
 
+use Exception;
 use HoneyCal\Auth\Domain\AuthTokenRepository;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -12,14 +13,14 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
         private AuthTokenRepository $tokenRepository
     ) {}
 
-    public function getUserBadgeFrom(string $authToken): UserBadge
+    public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        $authToken = $this->tokenRepository->findOneByValue($authToken);
+        $accessToken = $this->tokenRepository->findOneByValue($accessToken);
 
-        if(!$authToken || $authToken->isExpired()) {
-            throw new \Exception('Invalid access token');
+        if(!$accessToken || $accessToken->isExpired()) {
+            throw new Exception('Invalid access token');
         }
 
-        return new UserBadge($authToken->userId()->value());
+        return new UserBadge($accessToken->userId()->value());
     }
 }

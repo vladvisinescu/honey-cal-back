@@ -6,9 +6,14 @@ use Stringable;
 
 abstract class StringValueObject implements Stringable
 {
-    public function __construct(
-        public ?string $value = '',
+    final public function __construct(
+        private readonly ?string $value = '',
     ) {}
+
+    public static function from(string $value): static
+    {
+        return new static($value);
+    }
 
     public function value(): string
     {
@@ -20,8 +25,13 @@ abstract class StringValueObject implements Stringable
         return $this->value() === $other->value();
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->value() === '';
+    }
+
     public function __toString(): string
     {
-        return $this->value;
+        return $this->value() ?: '';
     }
 }

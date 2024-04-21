@@ -5,7 +5,7 @@ security:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
   # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
   providers:
-    users:
+    auth_users:
       id: HoneyCal\Auth\Infrastructure\Security\AuthProvider
 
   firewalls:
@@ -15,12 +15,13 @@ security:
 
     main:
       access_token:
-        provider: users
+        provider: auth_users
         token_handler: HoneyCal\Auth\Infrastructure\Security\AccessTokenHandler
 
     login:
       pattern: ^/api/auth
       stateless: true
+      provider: auth_users
       json_login:
         check_path: /api/auth
         success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -29,6 +30,7 @@ security:
     api:
       pattern:   ^/api
       stateless: true
+      provider: auth_users
       jwt: ~
 
   access_control:

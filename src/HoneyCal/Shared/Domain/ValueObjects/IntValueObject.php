@@ -4,8 +4,8 @@ namespace HoneyCal\Shared\Domain\ValueObjects;
 
 abstract class IntValueObject
 {
-    public function __construct(
-        private int $value,
+    final public function __construct(
+        private readonly int $value,
     ) {}
 
     public function value(): int

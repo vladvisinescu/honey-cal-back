@@ -27,11 +27,11 @@ final class AuthUserCreator
         AuthUserLastName $lastName,
         AuthUserEmail $email,
         AuthUserPassword $password
-    ) {
+    ): void {
         $uuid = AuthUserId::random();
         $createdAt = AuthUserCreatedAt::now();
         $updatedAt = AuthUserUpdatedAt::now();
-        $password = AuthUserPassword::fromPlainString($password);
+        $password = AuthUserPassword::fromPlainString($password->value());
 
         $authUser = AuthUser::create(
             $uuid,
@@ -43,7 +43,7 @@ final class AuthUserCreator
             $updatedAt,
         );
 
-        $this->tokenRepository->createForUser($authUser->id());
+        $this->tokenRepository->createForUser($authUser);
         $this->userRepository->store($authUser);
         $this->bus->publish(...$authUser->pullDomainEvents());
     }

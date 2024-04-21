@@ -3,22 +3,21 @@
 namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
-use RuntimeException;
 
 abstract class PasswordValueObject implements Stringable
 {
     public const COST = 12;
 
-    public function __construct(
-        private string $hashedPassword,
+    final public function __construct(
+        private readonly string $hashedPassword,
     ) {}
 
-    public static function fromPlainString(string $value): self
+    public static function fromPlainString(string $value): static
     {
         return new static(self::hash($value));
     }
 
-    public function fromHashedString(string $value): self
+    public static function fromHashedString(string $value): self
     {
         return new static($value);
     }
@@ -35,13 +34,7 @@ abstract class PasswordValueObject implements Stringable
 
     public static function hash(string $plainPassword): string
     {
-        $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT, ['cost' => self::COST]);
-
-        if (is_bool($hashedPassword)) {
-            throw new RuntimeException('Server error hashing password');
-        }
-
-        return (string) $hashedPassword;
+        return password_hash($plainPassword, PASSWORD_BCRYPT, ['cost' => self::COST]);
     }
 
     public function __toString(): string

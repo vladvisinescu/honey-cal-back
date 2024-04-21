@@ -2,6 +2,7 @@
 
 namespace HoneyCal\Shared\Infrastructure\Validator;
 
+use Exception;
 use HoneyCal\Shared\Domain\Validation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,8 +27,17 @@ class SymfonyValidator implements Validation
         return $this;
     }
 
+    /**
+     * @throws RequestValidationException
+     * @throws Exception
+     */
     public function validate(): void
     {
+        if (!$this->requestStack) {
+            throw new Exception('No request object provided.');
+        }
+
+        /** @var Request $request */
         $request = $this->requestStack->getMainRequest();
 
         $this->errors = $this->validator->validate($request->query->all(), $this->constraints);

@@ -1,9 +1,0 @@
-{
-  "name": "XDebug",
-  "type": "php",
-  "request": "launch",
-  "port": 9003,
-  "pathMappings": {
-    "/srv/app/": "${workspaceRoot}/"
-  }
-}

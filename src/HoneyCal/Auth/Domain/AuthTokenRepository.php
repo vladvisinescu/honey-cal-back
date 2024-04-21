@@ -15,5 +15,5 @@ interface AuthTokenRepository
 
     public function findOneByValue(string $accessToken): ?AuthToken;
 
-    public function createForUser(string $userId): ?AuthToken;
+    public function createForUser(AuthUser $authUser): ?AuthToken;
 }

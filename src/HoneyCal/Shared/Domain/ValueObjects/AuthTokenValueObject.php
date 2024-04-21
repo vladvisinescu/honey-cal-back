@@ -4,9 +4,9 @@ namespace HoneyCal\Shared\Domain\ValueObjects;
 
 use Stringable;
 
-final class AuthTokenValueObject implements Stringable
+readonly final class AuthTokenValueObject implements Stringable
 {
-    public function __construct(
+    final public function __construct(
         private string $value,
     ) {}
 

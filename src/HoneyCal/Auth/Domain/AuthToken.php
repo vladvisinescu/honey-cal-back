@@ -7,16 +7,16 @@ use HoneyCal\Auth\Domain\Errors\InvalidAuthTokenData;
 use HoneyCal\Auth\Domain\ValueObjects\AuthToken\AuthTokenCreatedAt;
 use HoneyCal\Auth\Domain\ValueObjects\AuthToken\AuthTokenExpiresAt;
 use HoneyCal\Auth\Domain\ValueObjects\AuthToken\AuthTokenId;
-use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
+use HoneyCal\Shared\Domain\Aggregate\Aggregate;
 
-final class AuthToken extends AggregateRoot
+final class AuthToken extends Aggregate
 {
     public function __construct(
-        private AuthTokenId $id,
-        private AuthTokenUserId $userId,
-        private AuthTokenToken $token,
-        private AuthTokenCreatedAt $createdAt,
-        private AuthTokenExpiresAt $expiresAt
+        private readonly AuthTokenId        $id,
+        private readonly AuthTokenUserId    $userId,
+        private readonly AuthTokenToken     $token,
+        private readonly AuthTokenCreatedAt $createdAt,
+        private readonly AuthTokenExpiresAt $expiresAt
     ) {}
 
     public static function create(

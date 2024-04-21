@@ -8,9 +8,10 @@ abstract class TimeValueObject implements Stringable
 {
     private const TIME_REGEX = '\([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?\i';
 
-    public function __construct(
+    final public function __construct(
         private string $value,
     ) {
+        // @TODO
         $this->ensureIsValidTime($value);
     }
 

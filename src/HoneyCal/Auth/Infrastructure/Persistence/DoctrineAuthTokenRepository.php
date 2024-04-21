@@ -4,7 +4,10 @@ namespace HoneyCal\Auth\Infrastructure\Persistence;
 
 use HoneyCal\Auth\Domain\AuthToken;
 use HoneyCal\Auth\Domain\AuthTokenRepository;
+use HoneyCal\Auth\Domain\AuthTokenToken;
 use HoneyCal\Auth\Domain\AuthTokenUserId;
+use HoneyCal\Auth\Domain\AuthUser;
+use HoneyCal\Auth\Domain\ValueObjects\AuthToken\AuthTokenCreatedAt;
 use HoneyCal\Auth\Domain\ValueObjects\AuthToken\AuthTokenId;
 use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 use HoneyCal\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
@@ -12,12 +15,18 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 final class DoctrineAuthTokenRepository extends DoctrineRepository implements AuthTokenRepository
 {
+
+    public function __construct(
+        private readonly JWTTokenManagerInterface $jwtManager
+    ) {
+    }
+
     public function store(AggregateRoot $authToken): void
     {
         $this->persist($authToken);
     }
 
-    public function get(AuthTokenId $authTokenId): ?AuthToken
+    public function get(AuthTokenId $authTokenId): AuthToken
     {
         return $this->repository(AuthToken::class)->find($authTokenId);
     }
@@ -32,13 +41,14 @@ final class DoctrineAuthTokenRepository extends DoctrineRepository implements Au
         return $this->repository(AuthToken::class)->findOneBy(['token' => $authToken]);
     }
 
-    public function createForUser(string $userId): AuthToken
+    public function createForUser(AuthUser $authUser): AuthToken
     {
+        $token = $this->jwtManager->create($authUser);
         $authToken = AuthToken::create(
             AuthTokenId::random(),
-            AuthTokenUserId::fromString($userId),
-            $token,
-            $createdAt,
+            AuthTokenUserId::fromString($authUser->id()->value()),
+            AuthTokenToken::from($token),
+            AuthTokenCreatedAt::now(),
             $expiresAt
         );
 

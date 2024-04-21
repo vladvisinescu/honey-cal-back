@@ -13,7 +13,7 @@ final class AuthRegisterController extends ApiController
 
     public function __invoke(
         Request $request
-    ) {
+    ): JsonResponse {
         $firstName = (string) $request->query->get('first_name');
         $lastName = (string) $request->query->get('last_name');
         $email = (string) $request->query->get('email');

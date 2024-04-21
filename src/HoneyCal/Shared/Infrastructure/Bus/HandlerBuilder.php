@@ -5,6 +5,7 @@ namespace HoneyCal\Shared\Infrastructure\Bus;
 use HoneyCal\Shared\Domain\Bus\Event\DomainEventSubscriber;
 use LogicException;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 use function Lambdish\Phunctional\map;
@@ -30,7 +31,7 @@ final class HandlerBuilder
 
     private static function pipedCallablesReducer(): callable
     {
-        return static function ($subscribers, DomainEventSubscriber $subscriber): array {
+        return static function (mixed $subscribers, DomainEventSubscriber $subscriber): array {
             $subscribedEvents = $subscriber::subscribedTo();
 
             foreach ($subscribedEvents as $subscribedEvent) {
@@ -43,10 +44,13 @@ final class HandlerBuilder
 
     private static function unflatten(): callable
     {
-        return static fn ($value) => [$value];
+        return static fn ( mixed $value) => [$value];
     }
 
-    public function extract($class): ?string
+    /**
+     * @throws ReflectionException
+     */
+    public function extract(mixed $class): ?string
     {
         $reflector = new ReflectionClass($class);
         $method    = $reflector->getMethod('__invoke');
@@ -61,13 +65,13 @@ final class HandlerBuilder
     private function firstParameterClassFrom(ReflectionMethod $method): string
     {
         /** @var ReflectionNamedType $fistParameterType */
-        $fistParameterType = $method->getParameters()[0]->getType();
+        $firstParameterType = $method->getParameters()[0]->getType();
 
-        if (null === $fistParameterType) {
+        if (null === $firstParameterType) {
             throw new LogicException('Missing type hint for the first parameter of __invoke');
         }
 
-        return $fistParameterType->getName();
+        return $firstParameterType->getName();
     }
 
     private function hasOnlyOneParameter(ReflectionMethod $method): bool

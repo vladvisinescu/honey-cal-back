@@ -15,7 +15,7 @@ final class RegisterUserCommandHandler implements CommandHandler
         private readonly AuthUserCreator $creator
     ) {}
 
-    public function __invoke(RegisterUserCommand $command)
+    public function __invoke(RegisterUserCommand $command): void
     {
         $firstName = new AuthUserFirstName($command->firstName());
         $lastName = new AuthUserLastName($command->lastName());

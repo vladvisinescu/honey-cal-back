@@ -4,13 +4,13 @@ namespace HoneyCal\Auth\Application\Register;
 
 use HoneyCal\Shared\Domain\Bus\Command\Command;
 
-final class RegisterUserCommand implements Command
+final readonly class RegisterUserCommand implements Command
 {
     public function __construct(
-        private readonly string $firstName,
-        private readonly string $lastName,
-        private readonly string $email,
-        private readonly string $plainPassword,
+        private string $firstName,
+        private string $lastName,
+        private string $email,
+        private string $plainPassword,
     ) {}
 
     public function firstName(): string

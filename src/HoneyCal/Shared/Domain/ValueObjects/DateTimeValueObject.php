@@ -7,16 +7,24 @@ use DateTimeImmutable;
 
 abstract class DateTimeValueObject implements Stringable
 {
-    public function __construct(
-        private DateTimeImmutable $value,
+    final public function __construct(
+        private readonly DateTimeImmutable $value,
     ) {}
+
+    /**
+     * @throws \Exception
+     */
+    public static function fromString(string $value): static
+    {
+        return new static(new DateTimeImmutable($value));
+    }
 
     public function value(): DateTimeImmutable
     {
         return $this->value;
     }
 
-    public static function now(): self
+    public static function now(): static
     {
         return new static(new DateTimeImmutable());
     }
