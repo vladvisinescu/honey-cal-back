@@ -4,15 +4,15 @@ namespace HoneyCal\Habits\Application;
 
 use HoneyCal\Shared\Domain\Bus\Query\Response;
 
-final class ActionResponse implements Response
+final readonly class ActionResponse implements Response
 {
     public function __construct(
-        private readonly string $id,
-        private readonly string $title,
-        private readonly string $description,
-        private readonly string $createdAt,
-        private readonly string $nextOccurrence,
-        private readonly array $recurrence,
+        private string $id,
+        private string $title,
+        private string $description,
+        private string $createdAt,
+        private string $nextOccurrence,
+        private array  $recurrence,
     ) {}
 
     public function id(): string
@@ -45,7 +45,7 @@ final class ActionResponse implements Response
         return $this->recurrence;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id(),

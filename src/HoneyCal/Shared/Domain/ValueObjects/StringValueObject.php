@@ -15,7 +15,7 @@ abstract class StringValueObject implements Stringable
         return new static($value);
     }
 
-    public function value(): string
+    public function value(): ?string
     {
         return $this->value;
     }

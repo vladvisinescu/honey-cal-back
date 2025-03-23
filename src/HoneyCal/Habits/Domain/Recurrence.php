@@ -112,10 +112,10 @@ final class Recurrence extends Aggregate
     {
         return [
             'every' => $this->every->value(),
-            'on' => $this->on ? $this->on->value() : null,
-            'at' => $this->at ? $this->at->value() : null,
-            'starting' => $this->starting ? $this->starting->value() : null,
-            'ending' => $this->ending ? $this->ending->value() : null
+            'on' => $this->on?->value(),
+            'at' => $this->at?->value(),
+            'starting' => $this->starting?->value(),
+            'ending' => $this->ending?->value()
         ];
     }
 }

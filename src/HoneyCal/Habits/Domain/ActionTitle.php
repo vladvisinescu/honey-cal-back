@@ -17,6 +17,6 @@ final class ActionTitle extends StringValueObject
             throw new InvalidActionData('Action title cannot longer than 50 characters.');
         }
 
-        return new static($title);
+        return new self($title);
     }
 }

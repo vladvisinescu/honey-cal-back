@@ -4,9 +4,9 @@ namespace HoneyCal\Habits\Application;
 
 use HoneyCal\Shared\Domain\Bus\Query\Response;
 
-final class ActionsResponse implements Response
+final readonly class ActionsResponse implements Response
 {
-    private readonly array $actions;
+    private array $actions;
 
     public function __construct(
         ActionResponse ...$actions
@@ -19,7 +19,7 @@ final class ActionsResponse implements Response
         return $this->actions;
     }
 
-        public function jsonSerialize(): mixed
+        public function jsonSerialize(): array
     {
         return $this->actions();
     }

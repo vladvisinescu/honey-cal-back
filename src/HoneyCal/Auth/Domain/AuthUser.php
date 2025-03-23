@@ -15,13 +15,13 @@ use HoneyCal\Shared\Domain\Aggregate\AggregateRoot;
 final class AuthUser extends AggregateRoot
 {
     private function __construct(
-        private AuthUserId $id,
-        private AuthUserEmail $email,
-        private AuthUserFirstName $firstName,
-        private AuthUserLastName $lastName,
-        private AuthUserPassword $password,
-        private AuthUserCreatedAt $createdAt,
-        private AuthUserUpdatedAt $updatedAt,
+        private readonly AuthUserId $id,
+        private readonly AuthUserEmail $email,
+        private readonly AuthUserFirstName $firstName,
+        private readonly AuthUserLastName $lastName,
+        private readonly AuthUserPassword $password,
+        private readonly AuthUserCreatedAt $createdAt,
+        private readonly AuthUserUpdatedAt $updatedAt,
     ) {}
 
     public static function create(

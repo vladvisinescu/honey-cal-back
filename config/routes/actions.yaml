@@ -4,6 +4,12 @@ actions.post:
   path: /api/actions
   controller: App\Controller\ActionsPostController
 
+# check
+actions.check:
+  methods: POST
+  path: /api/actions
+  controller: App\Controller\ActionsPostController
+
 # search by criteria
 actions.search:
   methods: GET
